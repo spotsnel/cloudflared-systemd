@@ -1,0 +1,28 @@
+FROM debian:bookworm-slim
+
+LABEL org.opencontainers.image.title="Cloudflared (systemd)" \
+      org.opencontainers.image.authors="Gerard Braad"
+
+RUN apt-get update \
+    && apt-get install -y \
+        ca-certificates \
+        iptables \
+        iproute2 \
+        procps \
+        inotify-tools \
+        systemd \
+        systemd-sysv \  
+        sudo \
+        curl \
+    && curl -fsSL https://github.com/cloudflare/cloudflared/releases/download/2023.6.1/cloudflared-fips-linux-amd64.deb -o /tmp/cloudflared.deb \
+    && apt-get install -y \
+        /tmp/cloudflared.deb \
+    && rm -f /tmp/cloudflared.deb \
+    && export SUDO_FORCE_REMOVE=yes \
+    && apt-get remove -y \
+        sudo \
+        curl \
+    && apt -y autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
+ENTRYPOINT ["/sbin/init"]

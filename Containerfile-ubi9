@@ -1,0 +1,12 @@
+FROM registry.access.redhat.com/ubi9/ubi-init:latest
+
+# install tailscale
+RUN curl -fsSL https://github.com/cloudflare/cloudflared/releases/download/2023.6.1/cloudflared-fips-linux-x86_64.rpm -o /tmp/cloudflared.rpm \
+    && dnf install -y \
+        /tmp/cloudflared.rpm \
+    && dnf clean all \
+    && rm -rf /var/cache/yum \
+    && rm -f /tmp/cloudflared.rpm
+
+# No need for entrypoint as base sets this
+#ENTRYPOINT ["/sbin/init"]
