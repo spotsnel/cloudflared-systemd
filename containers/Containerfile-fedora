@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.title="Cloudflared (systemd)" \
 # install cloudflare
 RUN dnf install -y \
         systemd \
-    && curl -fsSL https://github.com/cloudflare/cloudflared/releases/download/2023.6.1/cloudflared-fips-linux-x86_64.rpm -o /tmp/cloudflared.rpm \
+    && curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-x86_64.rpm -o /tmp/cloudflared.rpm \
     && dnf install -y \
         /tmp/cloudflared.rpm \
     && dnf clean all \
