@@ -1,7 +1,7 @@
 Cloudflared (system container)
 ==============================
 
-System(d) container for use with Podman Machine, MicroShift, OpenShift Local and Podman Desktop installations, etc.
+System(d) container for use with Podman Machine, MicroShift, OpenShift Local, Podman Desktop installations, Bazzite, Silverblue, etc.
 
 ![Screenshot](./images/screenshot.png)
 
