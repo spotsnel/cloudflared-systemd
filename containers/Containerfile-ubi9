@@ -1,7 +1,10 @@
 FROM registry.access.redhat.com/ubi9/ubi-init:latest
 
+LABEL org.opencontainers.image.title="Cloudflared (systemd)" \
+      org.opencontainers.image.authors="Gerard Braad"
+
 # install tailscale
-RUN curl -fsSL https://github.com/cloudflare/cloudflared/releases/download/2023.6.1/cloudflared-fips-linux-x86_64.rpm -o /tmp/cloudflared.rpm \
+RUN curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-x86_64.rpm -o /tmp/cloudflared.rpm \
     && dnf install -y \
         /tmp/cloudflared.rpm \
     && dnf clean all \

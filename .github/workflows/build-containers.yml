@@ -1,0 +1,33 @@
+name: build containers
+run-name: building containers
+on:
+  schedule:
+    - cron: "0 0 * * 1"
+  push:
+    branches:
+      - "main"
+  pull_request: {}
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Run podman build - Debian
+        run: podman build -t ghcr.io/spotsnel/cloudflared-systemd:latest -f containers/Containerfile-debian .
+      - name: Run podman build - Fedora
+        run: podman build -t ghcr.io/spotsnel/cloudflared-systemd/fedora:latest -f containers/Containerfile-fedora .
+      - name: Run podman build - UBI9
+        run: podman build -t ghcr.io/spotsnel/cloudflared-systemd/ubi9:latest -f containers/Containerfile-ubi9 .
+      - name: Push image to ghcr.io - Debian
+        run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/spotsnel/cloudflared-systemd:latest 
+      - name: Push image to ghcr.io - Fedora
+        run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/spotsnel/cloudflared-systemd/fedora:latest
+      - name: Push image to ghcr.io - UBI9
+        run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/spotsnel/cloudflared-systemd/ubi9:latest
