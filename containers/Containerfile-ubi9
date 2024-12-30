@@ -11,5 +11,7 @@ RUN curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/downloa
     && rm -rf /var/cache/yum \
     && rm -f /tmp/cloudflared.rpm
 
+# systemd
+USER root
 # No need for entrypoint as base sets this
 #ENTRYPOINT ["/sbin/init"]
